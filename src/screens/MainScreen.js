@@ -1,35 +1,39 @@
 // src/screens/MainScreen.js
-import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import WaterQualityFeedback from '../components/WaterQualityFeedback';
-import PurificationRecommendations from '../components/PurificationRecommendations';
-import EducationalContent from './EducationalContent';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { fetchWaterQualityData } from '../model';
 
 const MainScreen = () => {
-  const [recommendations] = useState([
-    { method: 'Boiling', description: 'Bring water to a rolling boil for at least one minute.' },
-    { method: 'Filtration', description: 'Use a certified water filter to remove contaminants.' },
-  ]);
+    const [waterQualityData, setWaterQualityData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  const handleFeedbackSubmit = (feedback) => {
-    console.log('User Feedback:', feedback);
-    // Handle the feedback submission logic here (e.g., send to backend)
-  };
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const data = await fetchWaterQualityData();
+                setWaterQualityData(data);
+            } catch (error) {
+                console.error('Failed to load water quality data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  return (
-    <ScrollView style={styles.container}>
-      <EducationalContent />
-      <PurificationRecommendations recommendations={recommendations} />
-      <WaterQualityFeedback onSubmit={handleFeedbackSubmit} />
-    </ScrollView>
-  );
+        loadData();
+    }, []);
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    }
+
+    return (
+        <View>
+            <Text>Water Quality Data:</Text>
+            {waterQualityData.map((item, index) => (
+                <Text key={index}>{`${item.date} - ${item.location} - NH3N: ${item.nh3n}`}</Text>
+            ))}
+        </View>
+    );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-});
 
 export default MainScreen;

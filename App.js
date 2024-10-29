@@ -1,20 +1,28 @@
+// App.js
+
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MainScreen from './src/screens/MainScreen';
+import EducationalContent from './src/screens/EducationalContent';
+import WaterQualityFeedback from './src/components/WaterQualityFeedback';
+import PurificationRecommendations from './src/components/PurificationRecommendations';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <NavigationContainer>
       <StatusBar style="auto" />
-    </View>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={MainScreen} />
+        <Stack.Screen name="Educational Content" component={EducationalContent} />
+        <Stack.Screen name="Water Quality Feedback" component={WaterQualityFeedback} />
+        <Stack.Screen name="Purification Recommendations" component={PurificationRecommendations} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

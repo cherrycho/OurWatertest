@@ -1,31 +1,20 @@
-// src/model.js
-import * as tf from '@tensorflow/tfjs';
-import { fetchWaterQualityData, preprocessData } from './data';
+import { loadModel, predict } from './mlModel';
+import * as FileSystem from 'expo-file-system';
 
-export const createModel = () => {
-  const model = tf.sequential();
-  model.add(tf.layers.dense({ units: 64, activation: 'relu', inputShape: [3] }));
-  model.add(tf.layers.dense({ units: 32, activation: 'relu' }));
-  model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
-  model.compile({
-    optimizer: 'adam',
-    loss: 'binaryCrossentropy',
-    metrics: ['accuracy'],
+export function loadCSVData(filePath) {
+  // Load CSV data from your assets
+  return FileSystem.readAsStringAsync(FileSystem.documentDirectory + filePath)
+    .then((data) => {
+      // Process CSV data into a usable format
+      console.log('Data Loaded:', data);
+      return data;
+    })
+    .catch((error) => console.error('Error loading data:', error));
+}
+
+// Call this function in your component to load the model
+export function initializeModel() {
+  loadModel(() => {
+    console.log('Model is ready for predictions!');
   });
-  return model;
-};
-
-export const trainModel = async (model) => {
-  const { trainingData, trainingLabels } = await preprocessData();
-  const xs = tf.tensor2d(trainingData);
-  const ys = tf.tensor2d(trainingLabels, [trainingLabels.length, 1]);
-
-  await model.fit(xs, ys, {
-    epochs: 100,
-    batchSize: 10,
-    shuffle: true,
-  });
-
-  xs.dispose();
-  ys.dispose();
-};
+}

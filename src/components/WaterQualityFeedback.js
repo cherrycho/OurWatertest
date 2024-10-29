@@ -1,27 +1,25 @@
-// src/components/WaterQualityFeedback.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-const WaterQualityFeedback = ({ onSubmit }) => {
+const WaterQualityFeedback = () => {
   const [feedback, setFeedback] = useState('');
 
   const handleSubmit = () => {
-    if (feedback) {
-      onSubmit(feedback);
-      setFeedback(''); // Clear input after submission
-    }
+    // Submit feedback logic
+    console.log(feedback);
+    setFeedback('');
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Feedback on Water Quality</Text>
+      <Text style={styles.title}>Report Water Quality Issues</Text>
       <TextInput
         style={styles.input}
-        placeholder="Type your feedback here..."
+        placeholder="Describe the issue..."
         value={feedback}
         onChangeText={setFeedback}
       />
-      <Button title="Submit Feedback" onPress={handleSubmit} />
+      <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
 };
@@ -29,21 +27,17 @@ const WaterQualityFeedback = ({ onSubmit }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 8,
-    marginVertical: 10,
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
     marginBottom: 10,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#ccc',
     padding: 10,
-    borderRadius: 5,
     marginBottom: 10,
+    borderRadius: 5,
   },
 });
 

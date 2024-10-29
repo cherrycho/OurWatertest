@@ -1,38 +1,31 @@
 // src/components/PurificationRecommendations.js
+
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const PurificationRecommendations = ({ recommendations }) => {
+const PurificationRecommendations = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Purification Recommendations</Text>
-      {recommendations.map((item, index) => (
-        <View key={index} style={styles.recommendation}>
-          <Text style={styles.recommendationTitle}>{item.method}</Text>
-          <Text>{item.description}</Text>
-        </View>
-      ))}
+      <Text style={styles.content}>Find the best methods to purify your water!</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 8,
-    marginVertical: 10,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4dd0e1', // Darker Cyan Background
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
-  recommendation: {
-    marginBottom: 15,
-  },
-  recommendationTitle: {
-    fontWeight: '600',
+  content: {
+    fontSize: 16,
+    color: '#007BFF',
   },
 });
 
